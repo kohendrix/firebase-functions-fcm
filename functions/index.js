@@ -17,10 +17,10 @@ exports.pushFCM = functions.https.onRequest((req, res) => {
     .get()
     .then(snapshotCollection => {
       return snapshotCollection.forEach(user => {
-        var setting = user.data()["setting"];
-        var isAppToday = user.data()["isAppToday"];
+        var isEnabled = user.data()["isEnabled"];
+        var isClockedIn = user.data()["isClockedIn"];
         var token = user.data()["fcmToken"];
-        if (setting && token && !isAppToday) {
+        if (isEnabled && token && !isClockedIn) {
           tokens.push(token);
           console.log("Will send notification to ", user.id, " => ", token);
         }
