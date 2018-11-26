@@ -3,6 +3,10 @@ const admin = require("firebase-admin");
 
 admin.initializeApp(functions.config().firebase);
 
+/**
+ * http request triggers the function
+ * send out notifications to users who has not clocked in yet
+ */
 exports.pushFCM = functions.https.onRequest((req, res) => {
   const payload = {
     notification: {
