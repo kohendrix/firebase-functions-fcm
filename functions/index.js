@@ -18,19 +18,14 @@ exports.pushFCM = functions.https.onRequest((req, res) => {
     }
   };
   function push(tokenArray) {
-    return !tokenArray.length
-      ? Promise.resolve()
-      : admin
-          .messaging()
+    // prettier-ignore
+    return !tokenArray.length ? Promise.resolve()
+      : admin.messaging()
           .sendToDevice(tokenArray, payload)
           .then(response =>
-            response.results.forEach((result, index) =>
-              console.error(
-                'Failure sending notification to',
-                tokenArray[index],
-                result.error
-              )
-            )
+            response.results.forEach((result, index) => {
+              if (result.error) console.error('Failure sending notification to', tokenArray[index], result.error);
+            })
           );
   }
   return firestore
